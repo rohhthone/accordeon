@@ -1,0 +1,57 @@
+<div>
+
+<style>
+:root{
+  --font:20px
+}
+html{font-size: var(--font);}
+
+li{position: relative; list-style: none; }
+
+li>ul{display: none;}
+/* li:hover>ul{display: block;} */
+.open>ul{display: block;}
+
+li:has(ul):before{content: "\276F"; font-size: calc(var(--font) * 0.8); position: absolute; left: calc(var(--font) * -1); top: 2px;cursor: pointer;}
+</style>
+
+<ul>
+  <li>Task 1
+  <ul>
+    <li>task 11
+      <ul>
+        <li>task 111</li>
+        <li>task 112</li>
+        <li>task 113</li>
+      </ul>
+    </li>
+    <li>task 12</li>
+    <li>task 13</li>
+  </ul>
+</li>
+  <li>Task 2</li>
+  <li>Task 3
+    <ul>
+      <li>task 31</li>
+      <li>task 32</li>
+      <li>task 33</li>
+    </ul>
+  </li>
+  
+  <li>Task 4</li>
+  <li>Task 5</li>
+</ul>
+<!-- 
+<span id="whereClicked"></span> -->
+<script>
+  document.onclick = function(event){
+    console.log(window.event);
+    var target= 'target' in event? event.target : event.srcElement;
+
+    console.log(target.tagName);
+    // whereClicked.innerHTML+=target.tagName + ", ";
+
+    target.classList.toggle('open');
+  }
+</script>
+</div>
