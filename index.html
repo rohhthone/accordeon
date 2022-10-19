@@ -8,56 +8,102 @@
   li{display: block}
   li{position: relative; margin-left: 20px;}
 :root{
-  --font:20px
+  --font:20px;
+  --color:#111;
 }
-html{font-size: var(--font);}
+html{font-size: var(--font); color: var(--color);}
 body{width: 100%; height: 100%; display: flex; align-items: center; justify-content: space-around;}
 
 li{position: relative; list-style: none; }
 
-li>ul{display: none;}
+li>ul{opacity: 0; transition: .5s; display:none}
 /* li:hover>ul{display: block;} */
-.open>ul{display: block;}
+.open>ul{opacity: 1; transition: .5s; display:block}
 
-li:has(ul):before{content: "\276F"; font-size: calc(var(--font) * 0.7); position: absolute; left: calc(var(--font) * -1); top: 2px;cursor: pointer; opacity: 0.6;}  
+.list:before{content: "\276F"; font-size: calc(var(--font) * 0.7); position: absolute; left: calc(var(--font) * -1); top: 2px;cursor: pointer; color: var(--color); opacity: 0.6;}
+.open:before{content: "\276F"; font-size: calc(var(--font) * 0.7); position: absolute; left: calc(var(--font) * -1); top: 2px;cursor: pointer; color: var(--color); opacity: 0.6; transform: rotate(90deg); transition: .3s;}
+
+button{width: 100%; text-align: center; cursor: pointer;}
 </style>
-<li><input type="text" name="" id="" value="Group">
 <ul>
-  <li><input type="text" name="" id="" value="Task 1">
+  <li><input type="text" value="Group">
   <ul>
-    <li><input type="text" name="" id="" value="Task 11">
-      <ul>
-        <li><input type="text" name="" id="" value="Task 111"></li>
-        <li><input type="text" name="" id="" value="Task 112"></li>
-        <li><input type="text" name="" id="" value="Task 113"></li>
-      </ul>
-    </li>
-    <li><input type="text" name="" id="" value="Task 12"> </li>
-    <li><input type="text" name="" id="" value="Task 13"> </li>
-  </ul>
-</li>
-  <li><input type="text" name="" id="" value="Task 2"></li>
-  <li><input type="text" name="" id="" value="Task 3">
+    <li><input type="text" value="Task 1">
     <ul>
-      <li><input type="text" name="" id="" value="Task 31"></li>
-      <li><input type="text" name="" id="" value="Task 32"></li>
-      <li><input type="text" name="" id="" value="Task 33"></li>
+      <li><input type="text" value="Task 11">
+        <ul>
+          <li><input type="text" value="Task 111"></li>
+          <li><input type="text" value="Task 112"></li>
+          <li><input type="text" value="Task 113"></li>
+        </ul>
+      </li>
+      <li><input type="text" value="Task 12"> </li>
+      <li><input type="text" value="Task 13"> </li>
     </ul>
   </li>
-  <li><input type="text" name="" id="" value="Task 4"></li>
-  <li><input type="text" name="" id="" value="Task 5"></li>
+    <li><input type="text" value="Task 2"></li>
+    <li><input type="text" value="Task 3">
+      <ul>
+        <li><input type="text" value="Task 31"></li>
+        <li><input type="text" value="Task 32"></li>
+        <li><input type="text" value="Task 33"></li>
+      </ul>
+    </li>
+    <li><input type="text" value="Task 4"></li>
+    <li><input type="text" value="Task 5"></li>
+  </ul>
+  </li>
 </ul>
-</li>
+<div id="changes"></div>
 <script>
-  document.onclick = function(event){
 
-    var target= 'target' in event? event.target : event.srcElement;
+// var input = document.createElement('li');
+//     input.innerHTML = '<input type="text" value="Put some text">';
+// var button = document.createElement('button');
+//     button.innerHTML = "+";
+// button.addEventListener("click", function addLine(e){
+//       var target = e.target;
+//       target.parentNode.appendChild(input);
+//       target.parentNode.appendChild(button);
+//       target.remove();
+//       changes.innerHTML +=target;
+//     });
+
+    document.addEventListener("DOMContentLoaded", ready);
+function ready(){
+  document.querySelectorAll('li').forEach(function(e) {  
+    if (e.querySelector(":scope > ul")){
+      e.classList.toggle('list');
+    }
+  });
+  // document.querySelectorAll('ul').forEach(function(e){
+  //   console.log(e);
+  //   e.appendChild(button);
+  // })
+}
+
+  document.onclick = function(event){
+    var target= event.target;
 
     var parent = target.parentNode;
-    if(parent.querySelector('.open')!==null)if(parent.querySelector('.open')!==target)parent.querySelector('.open').classList.toggle('open');
+    if(parent.querySelector('.open')!==null){
+      if(parent.querySelector('.open')!==target){
+        parent.querySelector('.open').classList.toggle('open');
+      }
+    }
 
     console.log(parent);
     target.classList.toggle('open');
   }
+  document.onfocusout = function(event){
+    var target = event.target;
+    console.log('work');
+    if(target.tagName == 'INPUT'){
+      if(target.value.length == 0){
+        console.log('empty'); target.remove();
+      }
+    }
+  }
+
 </script>
 </div>
